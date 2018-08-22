@@ -1,5 +1,5 @@
 Réaliser une route de test de connexion
 Réaliser une route d'importation initiale des données
 Le CronJob ne concernera que les mises à jour
-Exporter connexion à SQL dans un module e l'exécuter au fur et à mesure pour l'alimenation de MONGO
+Exporter connexion à SQL dans un module et l'exécuter au fur et à mesure pour l'alimenation de MONGO
 Le modèle MVC est limité à la partie Mongo
