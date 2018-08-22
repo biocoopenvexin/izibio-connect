@@ -40,7 +40,7 @@ var executeQuery = function (res, query) {
         });
 }
 
-//GET API - REFACTORISER
+//GET API
 var getApi = function (url, db) {
   app.get("/api/" + url, function(req, res){
     var query = "select * from " + db;
@@ -48,23 +48,10 @@ var getApi = function (url, db) {
   } );
 };
 
-// Adherents
+// Les API
 getApi("adherents", "dbo.ADHERENT");
-
-//app.get("/api/adherents", function(req , res){
-//                var query = "select * from dbo.ADHERENT";
-//                executeQuery (res, query);
-//});
-
-app.get("/api/catalogue", function(req , res){
-                var query = "select * from dbo.CATALOGUE_COMPLET";
-                executeQuery (res, query);
-});
-
-app.get("/api/fournisseurs", function(req , res){
-                var query = "select * from dbo.FOURNIS";
-                executeQuery (res, query);
-});
+getApi("catalogue", "dbo.CATALOGUE_COMPLET");
+getApi("fournisseurs", "dbo.FOURNIS");
 
 
 // Mongo Connection
