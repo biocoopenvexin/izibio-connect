@@ -19,6 +19,8 @@ app.use(function (req, res, next) {
     next();
 });
 
+//EXPORT MODULE
+
 var executeQuery = function (res, query) {
 
     var sql = require('mssql/msnodesqlv8');
@@ -38,11 +40,21 @@ var executeQuery = function (res, query) {
         });
 }
 
-//GET API
-app.get("/api/adherents", function(req , res){
-                var query = "select * from dbo.ADHANC";
-                executeQuery (res, query);
-});
+//GET API - REFACTORISER
+var getApi = function (url, db) {
+  app.get("/api/" + url, function(req, res){
+    var query = "select * from " + db;
+    executeQuery (res, query);
+  } );
+};
+
+// Adherents
+getApi("adherents", "dbo.ADHERENT");
+
+//app.get("/api/adherents", function(req , res){
+//                var query = "select * from dbo.ADHERENT";
+//                executeQuery (res, query);
+//});
 
 app.get("/api/catalogue", function(req , res){
                 var query = "select * from dbo.CATALOGUE_COMPLET";
@@ -59,6 +71,8 @@ app.get("/api/fournisseurs", function(req , res){
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true });
 
+var adherentRouter = require('./routes/adherentRoute');
+app.use('/', adherentRouter);
 
 var server = app.listen(5000, function () {
     console.log('Server is running..');
