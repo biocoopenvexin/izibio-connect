@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var app = express();
 
+var sql = require('./modules/sql_server');
+
 // Body Parser Middleware
 app.use(bodyParser.json());
 
@@ -19,32 +21,11 @@ app.use(function (req, res, next) {
     next();
 });
 
-//EXPORT MODULE
-
-var executeQuery = function (res, query) {
-
-    var sql = require('mssql/msnodesqlv8');
-    var config = {
-      driver: 'msnodesqlv8',
-      connectionString: process.env.MSSQLCONNECTION,
-    };
-    const pool = new sql.ConnectionPool(config).connect().then(pool => {
-        return pool.request().query(query)
-        }).then(result => {
-          let rows = result.recordset
-          res.status(200).json(rows);
-          sql.close();
-        }).catch(err => {
-          res.status(500).send({ message: `${err}`})
-          sql.close();
-        });
-}
-
 //GET API
 var getApi = function (url, db) {
   app.get("/api/" + url, function(req, res){
     var query = "select * from " + db;
-    executeQuery (res, query);
+    sql.executeQuery (res, query);
   } );
 };
 
