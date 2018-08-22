@@ -5,6 +5,7 @@ require('dotenv').config();
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var cron = require('node-cron');
 var app = express();
 
 var sql = require('./modules/sql_server');
@@ -41,6 +42,16 @@ mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true });
 
 var adherentRouter = require('./routes/adherentRoute');
 app.use('/', adherentRouter);
+
+// Mise à jour des données classiques
+cron.schedule('* * * * *', function(){
+  //console.log('running a task');
+});
+
+// Mise à jour CA quotidien
+cron.schedule('* 30 19 * * *', function(){
+  //console.log('running a task');
+});
 
 var server = app.listen(5000, function () {
     console.log('Server is running..');
