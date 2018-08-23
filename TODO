@@ -1,5 +1,12 @@
 Réaliser une route de test de connexion
-Réaliser une route d'importation initiale des données
+
+Réaliser une route / un fichier d'importation initiale des données
+- cette route vérifie si chaque collection est vide. Si oui, importmany sur toutes les tables vides. Sinon, retourne un message "table XXX déjà exisante".
+
 Le CronJob ne concernera que les mises à jour
+
 Exporter connexion à SQL dans un module et l'exécuter au fur et à mesure pour l'alimenation de MONGO
+- ce CronJob vérifie les dates de mise à jour sur SQL, compare aux dates sur mongo. En cas de différence, met à jour MONGO
+- il vérifie aussi si des enregistrements sont nouveaux. Si oui, insertion dans mongo
+
 Le modèle MVC est limité à la partie Mongo

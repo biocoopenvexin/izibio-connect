@@ -39,35 +39,42 @@ getApi("fournisseurs", "dbo.FOURNIS");
 
 // Mongo Connection
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true });
 
 var adherentRouter = require('./routes/adherentRoute');
 app.use('/', adherentRouter);
 
-// Mise à jour intégrale de la base adherent
-var Adherent = require('./models/adherent');
-axios.get('http://localhost:5000/api/adherents')
-  .then(function (response) {
-    //Adherent.insertMany(response.data);
-    //console.log('Adhérents à jour !');
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-  .then(function () {
-    // always executed
-  });
-
-// Mise à jour des données classiques
-cron.schedule('* * * * *', function(){
-  //console.log('running a task');
+// Populate collection
+mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true }, function(err, db) {
+  db.db.listCollections({name: 'adherents'})
+      .next(function(err, collinfo) {
+          if (collinfo) {
+              console.log('La collection adherents existe déjà !');
+          } else {
+            console.log('La collection adherents n\'existe pas...');
+            // Création de la base adherent
+            var Adherent = require('./models/adherent');
+            axios.get('http://localhost:5000/api/adherents')
+              .then(function (response) {
+                Adherent.insertMany(response.data);
+                console.log('Collection adherents créée !');
+              })
+              .catch(function (error) {
+                // handle error
+                console.log(error);
+              })
+              .then(function () {
+                // always executed
+              });
+          }
+      });
 });
 
-// Mise à jour CA quotidien
-cron.schedule('* 30 19 * * *', function(){
-  //console.log('running a task');
-});
+
+
+
+
+
+
 
 var server = app.listen(5000, function () {
     console.log('Server is running..');

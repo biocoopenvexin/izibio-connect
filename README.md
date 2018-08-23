@@ -8,4 +8,6 @@ Créer un fichier .env à la racine contenant les variables suivantes :
 
 Exécuter `npm install`
 
+Dans le répertoire application, exécuter `nodemon populate`, qui va réaliser une copie intégrale de la base SQL vers MongoDB. En cas de succès, stopper le processus.
+
 L'application est consultable sur (http://localhost:5000)
