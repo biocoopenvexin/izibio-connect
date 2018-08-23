@@ -44,27 +44,47 @@ mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true });
 var adherentRouter = require('./routes/adherentRoute');
 app.use('/', adherentRouter);
 
-// Mise à jour intégrale de la base adherent
+// Récupération des modèles
 var Adherent = require('./models/adherent');
-axios.get('http://localhost:5000/api/adherents')
-  .then(function (response) {
-    //Adherent.insertMany(response.data);
-    //console.log('Adhérents à jour !');
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-  .then(function () {
-    // always executed
-  });
 
-// Mise à jour des données classiques
+// Mise à jour intégrale de la base
+function updateCollection(model, url) {
+  axios.get('http://localhost:5000/api/' + url)
+    .then(function (response) {
+      // traverse the document
+      for (var i = 0; i < response.data.length; i++) {
+        var newDocument = response.data[i];
+        for (var field in newDocument) {
+          let document = {[field]: newDocument[field]};
+          model.findOneAndUpdate(
+            {CODE_AD: newDocument.CODE_AD},
+            {"$set":document},
+            {
+              upsert: true,
+            }, function(err, doc){
+              if(err){
+                  console.log("Something wrong when updating data!");
+              }
+            }
+          )
+        }
+      }
+    })
+    .catch(function (error) {
+      // handle errors
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+    });
+}
+// Mise à jour des données classiques, toutes les minutes
 cron.schedule('* * * * *', function(){
-  //console.log('running a task');
+  console.log('running update');
+  updateCollection(Adherent, 'adherents');
 });
 
-// Mise à jour CA quotidien
+// Mise à jour CA quotidien, tous les jours à 19h30
 cron.schedule('* 30 19 * * *', function(){
   //console.log('running a task');
 });
