@@ -14,10 +14,7 @@ exports.updateMailchimp = function() {
 
   var Adherent = require('../models/adherent');
   Adherent.find({}, function(err, adherents) {
-    //var userMap = {};
-    adherents.forEach(function(adherent) {
-      //userMap[adherent._id] = adherent;
-
+    adherents.forEach(function(adherent) { 
       if (adherent.MEL_AD !== null) {
         const hash_mail = md5(adherent.MEL_AD);
         axios.get('https://' + process.env.MAILCHIMP_SERVER + '.api.mailchimp.com/3.0/lists/' + process.env.MAILCHIMP_LIST + '/members/' + hash_mail, {
@@ -28,15 +25,6 @@ exports.updateMailchimp = function() {
             }
           })
           .then(function(response){
-            // if (response.data.status == "unsubscribed") {
-            //   console.log(adherent.MEL_AD + " " + response.data.status);
-            // } else if (response.data.status == "404") {
-            //   console.log(adherent.MEL_AD + " " + response.data.status);
-            // }
-            //console.log(response.status);
-            // if (response.status !== 200) {
-            //   console.log(adherent.MEL_AD + " " + response.status);
-            // }
           })
           .catch(function (error) {
             // handle errors
@@ -47,25 +35,7 @@ exports.updateMailchimp = function() {
             }
           });
       }
-
-      // axios({
-      //   method:'get',
-      //   url:'https://' + process.env.MAILCHIMP_SERVER + '.api.mailchimp.com/schema/3.0/lists/' + process.env.MAILCHIMP_LIST + '/members/' + hash_mail,
-      //   responseType:'stream'
-      // })
-      // .then(function (response){
-      //
-      // })
-      // .catch(function (error) {
-      //   // handle errors
-      //   console.log(error);
-      // })
-      // .then(function () {
-      //   // always executed
-      // });
-      // console.log(hash_mail);
     });
-    //res.send(userMap);
   });
 }
 
