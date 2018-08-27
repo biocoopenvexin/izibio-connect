@@ -2,14 +2,15 @@
 // customising the .env file in your project's root folder.
 require('dotenv').config();
 
-var express = require('express');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var cron = require('node-cron');
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const cron = require('node-cron');
 const axios = require('axios');
-var app = express();
+const app = express();
 
 var sql = require('./modules/sql_server');
+var mailchimp = require('./modules/mailchimp');
 
 // Body Parser Middleware
 app.use(bodyParser.json());
@@ -78,6 +79,10 @@ function updateCollection(model, url) {
       // always executed
     });
 }
+
+// Gestion de la liste Mailchimp
+mailchimp.updateMailchimp();
+
 // Mise à jour des données classiques, toutes les minutes
 cron.schedule('* * * * *', function(){
   console.log('running update');
