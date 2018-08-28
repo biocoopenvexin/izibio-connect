@@ -8,7 +8,6 @@ Bases à importer depuis CCB :
 - (optionnel) COMMANDE : liste des commandes
 - (optionnel) COMMANDEDT : détail des produits commandés
 - FAMILLES : familles de produits
-- FOURNIS : fournisseurs
 - MVT_STOCKS : mouvements de stocks
 - PRODUITS : produits
 - PROHIJO : historique des modifications des fiches produits / par jour
@@ -32,7 +31,7 @@ Le CronJob ne concernera que les mises à jour
 - une mise à jour complète de chaque base tous les jours
 - une mise à jour partielle toutes les minutes, sur certaines bases et certains fields uniquement
 
-Exporter connexion à SQL dans un module et l'exécuter au fur et à mesure pour l'alimenation de MONGO
+Exporter connexion à SQL dans un module et l'exécuter au fur et à mesure pour l'alimentation de MONGO
 - ce CronJob vérifie les dates de mise à jour sur SQL, compare aux dates sur mongo. En cas de différence, met à jour MONGO
 - il vérifie aussi si des enregistrements sont nouveaux. Si oui, insertion dans mongo
 
