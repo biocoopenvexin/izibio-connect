@@ -24,7 +24,7 @@ var ProduitSchema = new Schema(
   	FAMILLE_PR: {type: String}, // clé famille/FAMILLE_PR
   	SOUFAMI_PR: {type: String}, // clé famille/sous-famille/SOUFAMI_PR
   	TYPE_PR: {type: Number},
-  	CLASSE_PR: {type: String}, // clé classe
+  	CLASSE_PR: {type: String}, // clé classe/CLASSE_PR
   	RAYON_PR: {type: String}, // clé rayon/RAYON_PR
   	INDISP_PR: {type: Boolean},
   	BJP_PR: {type: Boolean},
@@ -122,8 +122,49 @@ var ProduitSchema = new Schema(
   	PRIXV_DATE_PR: {type: Date},
   	OPECOM_ID: {type: String},
   	DISCPV2_PR: {type: Boolean},
+  },
+  {
+    toJSON: { virtuals: true }
   }
 );
+
+// Populate virtuals
+ProduitSchema.virtual('fournisseur', {
+  ref: 'Fournisseur',
+  localField: 'FOURNI_PR',
+  foreignField: 'CODE_FO',
+  justOne: true
+});
+ProduitSchema.virtual('fournisseur2', {
+  ref: 'Fournisseur',
+  localField: 'FOURNI2_PR',
+  foreignField: 'CODE_FO',
+  justOne: true
+});
+ProduitSchema.virtual('famille', {
+  ref: 'Famille',
+  localField: 'FAMILLE_PR',
+  foreignField: 'FAMILLE_PR',
+  justOne: true
+});
+ProduitSchema.virtual('sous_famille', {
+  ref: 'Famille',
+  localField: 'SOUFAMI_PR',
+  foreignField: 'SOUFAMI_PR',
+  justOne: true
+});
+ProduitSchema.virtual('classe', {
+  ref: 'Classe',
+  localField: 'CLASSE_PR',
+  foreignField: 'CLASSE_PR',
+  justOne: true
+});
+ProduitSchema.virtual('rayon', {
+  ref: 'Rayon',
+  localField: 'RAYON_PR',
+  foreignField: 'RAYON_PR',
+  justOne: true
+});
 
 // Virtual for Produit's URL
 ProduitSchema
