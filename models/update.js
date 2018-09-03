@@ -1,8 +1,7 @@
-// UPDATE : traçage des mises à jour depuis MSSQL
+// UPDATE : traçage des mises à jour depuis MSSQL.
+// Un seul document par collection, dont la date est MàJ au fur et à mesure
 
 var mongoose = require('mongoose');
-
-// Modèle qui retrace toutes les mises à jour des différentes collections. Un seul document par collection, qui est MàJ au fur et à mesure
 
 var Schema = mongoose.Schema;
 
@@ -17,7 +16,7 @@ var UpdateSchema = new Schema(
 UpdateSchema
 .virtual('url')
 .get(function () {
-  return '/updates/' + this._id;
+  return '/update/' + this._id;
 });
 
 //Export model

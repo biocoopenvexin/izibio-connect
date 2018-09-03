@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-var FournisseurSchema = new Schema(
+var CaisMoisSchema = new Schema(
   {
     ID_OP: {type: String},
   	ID_CA: {type: String},
@@ -82,12 +82,12 @@ var FournisseurSchema = new Schema(
   }
 );
 
-// Virtual for Fournisseur's URL
-FournisseurSchema
+// Virtual for CaisMois's URL
+CaisMoisSchema
 .virtual('url')
 .get(function () {
   return '/caismois/' + this._id;
 });
 
 //Export model
-module.exports = mongoose.model('Fournisseur', FournisseurSchema);
+module.exports = mongoose.model('CaisMois', CaisMoisSchema);
