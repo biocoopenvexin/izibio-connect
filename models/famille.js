@@ -15,9 +15,9 @@ var FamilleSchema = new Schema(
   	//SYNC_DATE DATETIME(3) NULL DEFAULT NULL,
   	//SYNC_FROM TINYINT(3,0) NULL DEFAULT NULL,
   	//SYNC_BLOCKED BIT NOT NULL DEFAULT ((0)),
-  	MODIF_DATE: {type: Date, default: Date.now, required: true},
+  	MODIF_DATE: {type: Date},
   	//MODIF_BY VARCHAR(128) NULL DEFAULT (host_name()),
-  	CREAT_DATE: {type: Date, default: Date.now, required: true},
+  	CREAT_DATE: {type: Date},
   	//CREAT_BY VARCHAR(128) NULL DEFAULT (host_name()),
   }
 );
