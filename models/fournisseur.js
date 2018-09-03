@@ -1,3 +1,5 @@
+// FOURNISSEUR : liste des fournisseurs 
+
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;

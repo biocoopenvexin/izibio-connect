@@ -1,3 +1,5 @@
+// UPDATE : traçage des mises à jour depuis MSSQL
+
 var mongoose = require('mongoose');
 
 // Modèle qui retrace toutes les mises à jour des différentes collections. Un seul document par collection, qui est MàJ au fur et à mesure

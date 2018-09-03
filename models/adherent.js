@@ -1,3 +1,5 @@
+// ADHERENT : liste des adhérents
+
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
