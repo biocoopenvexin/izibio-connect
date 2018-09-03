@@ -86,7 +86,7 @@ var FournisseurSchema = new Schema(
 FournisseurSchema
 .virtual('url')
 .get(function () {
-  return '/fournisseur/' + this._id;
+  return '/caismois/' + this._id;
 });
 
 //Export model
