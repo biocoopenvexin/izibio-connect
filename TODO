@@ -5,11 +5,12 @@ Réaliser une route / un fichier d'importation initiale des données
 
 Bases à importer depuis CCB :
 +- CAISMOIS : récapitulatif des ventes en fin de journée après clôture quotidienne
+- CLASSES : classes des produits
 - (optionnel) COMMANDE : liste des commandes
 - (optionnel) COMMANDEDT : détail des produits commandés
 +- FAMILLES : familles de produits
 - MVT_STOCKS : mouvements de stocks
-- PRODUITS : produits
++- PRODUITS : produits
 - PROHIJO : historique des modifications des fiches produits / par jour
 - PROHIMO : historique des modifications des fiches produits / par mois
 - RAYONS : les rayons du magasin
