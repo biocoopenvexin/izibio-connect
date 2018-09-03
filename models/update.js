@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 
 var UpdateSchema = new Schema(
   {
-    DATE_UP: {type: Date},
+    DATE_UP: {type: Date, default: Date.now, required: true},
   	BASE_UP: {type: String},
   }
 );
