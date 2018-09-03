@@ -4,30 +4,30 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-var UpdateSchema = new Schema(
+var FamilleSchema = new Schema(
   {
-    "FAMILLE_PR" VARCHAR(6) NOT NULL,
-  	"SOUFAMI_PR" VARCHAR(6) NOT NULL DEFAULT ((0)),
-  	"NOMFAMI_FM" VARCHAR(60) NULL DEFAULT NULL,
-  	"NOMSOUF_FM" VARCHAR(60) NULL DEFAULT NULL,
-  	"LIBEL_FM" VARCHAR(80) NULL DEFAULT NULL,
-  	"EXP_BLOCKED" BIT NOT NULL DEFAULT ((0)),
-  	"SYNC_DATE" DATETIME(3) NULL DEFAULT NULL,
-  	"SYNC_FROM" TINYINT(3,0) NULL DEFAULT NULL,
-  	"SYNC_BLOCKED" BIT NOT NULL DEFAULT ((0)),
-  	"MODIF_DATE" DATETIME(3) NULL DEFAULT (getdate()),
-  	"MODIF_BY" VARCHAR(128) NULL DEFAULT (host_name()),
-  	"CREAT_DATE" DATETIME(3) NULL DEFAULT (getdate()),
-  	"CREAT_BY" VARCHAR(128) NULL DEFAULT (host_name()),
+    FAMILLE_PR: {type: String},
+  	SOUFAMI_PR: {type: String},
+  	NOMFAMI_FM: {type: String},
+  	NOMSOUF_FM: {type: String},
+  	LIBEL_FM: {type: String},
+  	//EXP_BLOCKED BIT NOT NULL DEFAULT ((0)),
+  	//SYNC_DATE DATETIME(3) NULL DEFAULT NULL,
+  	//SYNC_FROM TINYINT(3,0) NULL DEFAULT NULL,
+  	//SYNC_BLOCKED BIT NOT NULL DEFAULT ((0)),
+  	MODIF_DATE: {type: Date, default: Date.now, required: true},
+  	//MODIF_BY VARCHAR(128) NULL DEFAULT (host_name()),
+  	CREAT_DATE: {type: Date, default: Date.now, required: true},
+  	//CREAT_BY VARCHAR(128) NULL DEFAULT (host_name()),
   }
 );
 
-// Virtual for Update's URL
-UpdateSchema
+// Virtual for Famille's URL
+FamilleSchema
 .virtual('url')
 .get(function () {
   return '/famille/' + this._id;
 });
 
 //Export model
-module.exports = mongoose.model('Update', UpdateSchema);
+module.exports = mongoose.model('Famille', FamilleSchema);
