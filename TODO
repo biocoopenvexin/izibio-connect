@@ -4,10 +4,10 @@ Réaliser une route / un fichier d'importation initiale des données
 - cette route vérifie si chaque collection est vide. Si oui, importmany sur toutes les tables vides. Sinon, retourne un message "table XXX déjà exisante".
 
 Bases à importer depuis CCB :
-- CAISMOIS : récapitulatif des ventes en fin de journée après clôture quotidienne
++- CAISMOIS : récapitulatif des ventes en fin de journée après clôture quotidienne
 - (optionnel) COMMANDE : liste des commandes
 - (optionnel) COMMANDEDT : détail des produits commandés
-- FAMILLES : familles de produits
++- FAMILLES : familles de produits
 - MVT_STOCKS : mouvements de stocks
 - PRODUITS : produits
 - PROHIJO : historique des modifications des fiches produits / par jour
