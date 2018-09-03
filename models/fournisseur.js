@@ -1,4 +1,4 @@
-// FOURNISSEUR : liste des fournisseurs 
+// FOURNISSEUR : liste des fournisseurs
 
 var mongoose = require('mongoose');
 
@@ -41,14 +41,14 @@ var FournisseurSchema = new Schema(
   	DELIVR_FO: {type: Number},
   	DURLIVR_FO: {type: Number},
   	DATLIV_FO: {type: Date},
-  	EXP_BLOCKED: {type: Boolean},
-  	SYNC_DATE: {type: Date},
-  	SYNC_FROM: {type: Number},
-  	SYNC_BLOCKED: {type: Boolean},
+  	//EXP_BLOCKED: {type: Boolean},
+  	//SYNC_DATE: {type: Date},
+  	//SYNC_FROM: {type: Number},
+  	//SYNC_BLOCKED: {type: Boolean},
   	MODIF_DATE: {type: Date, default: Date.now, required: true},
-  	MODIF_BY: {type: String},
+  	//MODIF_BY: {type: String},
   	CREAT_DATE: {type: Date, default: Date.now, required: true},
-  	CREAT_BY: {type: String},
+  	//CREAT_BY: {type: String},
   }
 );
 
