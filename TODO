@@ -36,6 +36,8 @@ Exporter connexion à SQL dans un module et l'exécuter au fur et à mesure pour
 - ce CronJob vérifie les dates de mise à jour sur SQL, compare aux dates sur mongo. En cas de différence, met à jour MONGO
 - il vérifie aussi si des enregistrements sont nouveaux. Si oui, insertion dans mongo
 
+Créer une section prévisionnel avec le détail du CA prévisionnel et simulation
+
 Création d'une collection avec les dernières mises à jour, en fonction de la base, pour vérifier les dernières créations/modifications de fichiers
 
 Le modèle MVC est limité à la partie Mongo
