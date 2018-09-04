@@ -1,4 +1,4 @@
-// PROHIJO : historique des modifications des fiches produits / par jour
+// PROHIJO : historique des modifications des fiches produits / par mois
 //
 
 var mongoose = require('mongoose');
