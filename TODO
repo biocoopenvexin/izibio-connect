@@ -13,7 +13,7 @@ Bases à importer depuis CCB :
 +- PRODUITS : produits
 +- PROHIJO : historique des modifications des fiches produits / par jour
 +- PROHIMO : historique des modifications des fiches produits / par mois
-- RAYONS : les rayons du magasin
++- RAYONS : les rayons du magasin
 - VENTE : ventes du jour (après consolidation)
 - VENTEDT : détail des ventes du jour (après consolidation)
 - VENTIC : détail des ventes des derniers mois
