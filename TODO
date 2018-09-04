@@ -17,7 +17,7 @@ Bases à importer depuis CCB :
 +- RAYONS : les rayons du magasin
 +- VENTE : ventes du jour (après consolidation)
 +- VENTEDT : détail des ventes du jour (après consolidation)
-- VENTIC : détail des ventes des derniers mois
++- VENTIC : détail des ventes des derniers mois
 - VENTMOIS : liste des ventes des 30 derniers jours
 - VTECREDBA : ventes du jour (temps réel)
 
