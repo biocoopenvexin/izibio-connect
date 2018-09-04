@@ -10,7 +10,7 @@ Bases à importer depuis CCB :
 - (optionnel) COMMANDEDT : détail des produits commandés
 +- FAMILLES : familles de produits
 +- MVT_STOCKS : mouvements de stocks
-- OPERA ? liste des opérations de caisse, table index
+- (optionnel) OPERA : liste des opérations de caisse, table index
 +- PRODUITS : produits
 +- PROHIJO : historique des modifications des fiches produits / par jour
 +- PROHIMO : historique des modifications des fiches produits / par mois
