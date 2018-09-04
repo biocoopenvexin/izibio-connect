@@ -18,8 +18,8 @@ Bases à importer depuis CCB :
 +- VENTE : ventes du jour (après consolidation)
 +- VENTEDT : détail des ventes du jour (après consolidation)
 +- VENTIC : détail des ventes des derniers mois
-- VENTMOIS : liste des ventes des 30 derniers jours
-- VTECREDBA : ventes du jour (temps réel)
++- VENTMOIS : liste des ventes des 30 derniers jours
++- VTECREDBA : ventes du jour (temps réel)
 
 Bases à importer depuis CCBARC :
 - ARC_CAISMOIS : récapitulatif des ventes quotidiennes des mois précédents
