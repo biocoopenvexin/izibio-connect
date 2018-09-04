@@ -11,7 +11,7 @@ Bases à importer depuis CCB :
 +- FAMILLES : familles de produits
 +- MVT_STOCKS : mouvements de stocks
 +- PRODUITS : produits
-- PROHIJO : historique des modifications des fiches produits / par jour
++- PROHIJO : historique des modifications des fiches produits / par jour
 - PROHIMO : historique des modifications des fiches produits / par mois
 - RAYONS : les rayons du magasin
 - VENTE : ventes du jour (après consolidation)
