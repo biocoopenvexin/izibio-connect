@@ -1,5 +1,5 @@
-// UPDATE : traçage des mises à jour depuis MSSQL.
-// Un seul document par collection, dont la date est MàJ au fur et à mesure
+// MVTSTOCK : journal des mouvements de stocks
+//
 
 var mongoose = require('mongoose');
 
