@@ -49,7 +49,7 @@ ProduitSchema.virtual('sous_famille', {
 ProHiMoSchema
 .virtual('url')
 .get(function () {
-  return '/prohijo/' + this._id;
+  return '/prohimo/' + this._id;
 });
 
 //Export model
