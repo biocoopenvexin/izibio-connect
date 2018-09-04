@@ -1,5 +1,5 @@
-// UPDATE : traçage des mises à jour depuis MSSQL.
-// Un seul document par collection, dont la date est MàJ au fur et à mesure
+// VENTE : ventes du jour (après consolidation)
+// 
 
 var mongoose = require('mongoose');
 
