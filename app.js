@@ -42,14 +42,16 @@ getApi("fournisseurs", "dbo.FOURNIS");
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true });
 
+// Définition des routes
 var adherentRouter = require('./routes/adherentRoute');
-app.use('/', adherentRouter);
+app.use('/adherent', adherentRouter);
 
 // Récupération des modèles
 var Adherent = require('./models/adherent');
+var caisMois = require('./models/caisMois');
 
 // Mise à jour intégrale de la base
-function updateCollection(model, url) {
+function updateCollection(model, url, query) {
   axios.get('http://localhost:5000/api/' + url)
     .then(function (response) {
       // traverse the document
@@ -57,9 +59,14 @@ function updateCollection(model, url) {
         var newDocument = response.data[i];
         for (var field in newDocument) {
           let document = {[field]: newDocument[field]};
+          var queries = {
+            "adherents": {CODE_AD: newDocument.CODE_AD},
+          }
+          //const query = {CODE_AD: newDocument.CODE_AD};
+          const update = {"$set":document};
           model.findOneAndUpdate(
-            {CODE_AD: newDocument.CODE_AD},
-            {"$set":document},
+            queries.url,
+            update,
             {
               upsert: true,
             }, function(err, doc){
@@ -84,10 +91,10 @@ function updateCollection(model, url) {
 mailchimp.updateMailchimp();
 
 // Mise à jour des données classiques, toutes les minutes
-cron.schedule('* * * * *', function(){
+//cron.schedule('* * * * *', function(){
   console.log('running update');
   updateCollection(Adherent, 'adherents');
-});
+//});
 
 // Mise à jour CA quotidien, tous les jours à 19h30
 cron.schedule('* 30 19 * * *', function(){
