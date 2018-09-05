@@ -1,5 +1,5 @@
 // VENTE : ventes du jour (après consolidation)
-// 
+//
 
 var mongoose = require('mongoose');
 
@@ -59,12 +59,15 @@ var VenteSchema = new Schema(
   	VT_ANNULE: {type: Boolean},
   },
   {
+    collection: 'vente'
+  },
+  {
     toJSON: { virtuals: true }
   }
 );
 
 // Populate virtuals
-ProduitSchema.virtual('adherent', {
+VenteSchema.virtual('adherent', {
   ref: 'Adherent',
   localField: 'CODE_AD',
   foreignField: 'CODE_AD',

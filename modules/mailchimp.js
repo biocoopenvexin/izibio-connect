@@ -14,7 +14,7 @@ exports.updateMailchimp = function() {
 
   var Adherent = require('../models/adherent');
   Adherent.find({}, function(err, adherents) {
-    adherents.forEach(function(adherent) { 
+    adherents.forEach(function(adherent) {
       if (adherent.MEL_AD !== null) {
         const hash_mail = md5(adherent.MEL_AD);
         axios.get('https://' + process.env.MAILCHIMP_SERVER + '.api.mailchimp.com/3.0/lists/' + process.env.MAILCHIMP_LIST + '/members/' + hash_mail, {

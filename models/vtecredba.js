@@ -52,18 +52,21 @@ var VteCredBaSchema = new Schema(
   	DONVOL_VJ: {type: Number},
   },
   {
+    collection: 'vtecredba'
+  },
+  {
     toJSON: { virtuals: true }
   }
 );
 
 // Populate virtuals
-ProduitSchema.virtual('vente', {
+VteCredBaSchema.virtual('vente', {
   ref: 'VentIC',
   localField: 'ID_OP',
   foreignField: 'ID_OP',
   justOne: true
 });
-ProduitSchema.virtual('adherent', {
+VteCredBaSchema.virtual('adherent', {
   ref: 'Adherent',
   localField: 'CODE_AD',
   foreignField: 'CODE_AD',

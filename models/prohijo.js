@@ -23,12 +23,15 @@ var ProHiJoSchema = new Schema(
   	CAHTJ_PR: {type: Number},
   },
   {
+    collection: 'prohijo'
+  },
+  {
     toJSON: { virtuals: true }
   }
 );
 
 // Populate virtuals
-ProduitSchema.virtual('produit', {
+ProHiJoSchema.virtual('produit', {
   ref: 'Produit',
   localField: 'CODE_PR',
   foreignField: 'CODE_PR',

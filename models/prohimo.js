@@ -21,24 +21,27 @@ var ProHiMoSchema = new Schema(
   	TPERDU_PR: {type: Number},
   },
   {
+    collection: 'prohimo'
+  },
+  {
     toJSON: { virtuals: true }
   }
 );
 
 // Populate virtuals
-ProduitSchema.virtual('produit', {
+ProHiMoSchema.virtual('produit', {
   ref: 'Produit',
   localField: 'CODE_PR',
   foreignField: 'CODE_PR',
   justOne: true
 });
-ProduitSchema.virtual('famille', {
+ProHiMoSchema.virtual('famille', {
   ref: 'Famille',
   localField: 'FAMILLE_PR',
   foreignField: 'FAMILLE_PR',
   justOne: true
 });
-ProduitSchema.virtual('sous_famille', {
+ProHiMoSchema.virtual('sous_famille', {
   ref: 'Famille',
   localField: 'SOUFAMI_PR',
   foreignField: 'SOUFAMI_PR',

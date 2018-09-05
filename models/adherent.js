@@ -58,6 +58,9 @@ var AdherentSchema = new Schema(
     //"SMSOK_AD" BIT NOT NULL DEFAULT ((0)),
     //"MAILOK_AD" BIT NOT NULL DEFAULT ((0)),
     TELMOBI_AD: {type: String, maxlength: 10, minlength: 10},
+  },
+  {
+    collection: 'adherent'
   }
 );
 

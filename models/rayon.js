@@ -8,6 +8,9 @@ var RayonSchema = new Schema(
   {
     RAYON_PR: {type: String},
   	LIBEL_RA: {type: String},
+  },
+  {
+    collection: 'rayon'
   }
 );
 

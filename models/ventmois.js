@@ -64,13 +64,13 @@ var VentMoisSchema = new Schema(
 );
 
 // Populate virtuals
-ProduitSchema.virtual('vente', {
+VentMoisSchema.virtual('vente', {
   ref: 'VentIC',
   localField: 'ID_OP',
   foreignField: 'ID_OP',
   justOne: true
 });
-ProduitSchema.virtual('adherent', {
+VentMoisSchema.virtual('adherent', {
   ref: 'Adherent',
   localField: 'CODE_AD',
   foreignField: 'CODE_AD',

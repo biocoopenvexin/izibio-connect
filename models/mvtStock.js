@@ -17,7 +17,10 @@ var MvtStockSchema = new Schema(
   	STOCK_AVANT: {type: Number},
   	STOCK_APRES: {type: Number},
   	ID_OP: {type: String},
-  	ANNULATION BIT NULL: {type: Boolean},
+  	//ANNULATION BIT NULL: {type: Boolean},
+  },
+  {
+    collection: 'mvtstock'
   },
   {
     toJSON: { virtuals: true }
@@ -25,7 +28,7 @@ var MvtStockSchema = new Schema(
 );
 
 // Populate virtuals
-ProduitSchema.virtual('produit', {
+MvtStockSchema.virtual('produit', {
   ref: 'Produit',
   localField: 'CODE_PR',
   foreignField: 'CODE_PR',

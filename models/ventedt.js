@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-var VenteDTSchema = new Schema(
+var VenteDtSchema = new Schema(
   {
     DATE_VJ: {type: Date},
   	NUM_CA: {type: String},
@@ -70,36 +70,39 @@ var VenteDTSchema = new Schema(
   	BA_CADEAU: {type: Boolean},
   },
   {
+    collection: 'ventedt'
+  },
+  {
     toJSON: { virtuals: true }
   }
 );
 
 // Populate virtuals
-ProduitSchema.virtual('vente', {
+VenteDtSchema.virtual('vente', {
   ref: 'Vente',
   localField: 'ID_OP',
   foreignField: 'ID_OP',
   justOne: true
 });
-ProduitSchema.virtual('adherent', {
+VenteDtSchema.virtual('adherent', {
   ref: 'Adherent',
   localField: 'CODE_AD',
   foreignField: 'CODE_AD',
   justOne: true
 });
-ProduitSchema.virtual('produit', {
+VenteDtSchema.virtual('produit', {
   ref: 'Produit',
   localField: 'CODE_LP',
   foreignField: 'CODE_PR',
   justOne: true
 });
 
-// Virtual for VenteDT's URL
-VenteDTSchema
+// Virtual for VenteDt's URL
+VenteDtSchema
 .virtual('url')
 .get(function () {
   return '/ventedt/' + this._id;
 });
 
 //Export model
-module.exports = mongoose.model('VenteDT', VenteDTSchema);
+module.exports = mongoose.model('VenteDt', VenteDtSchema);

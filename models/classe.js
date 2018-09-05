@@ -9,8 +9,11 @@ var ClasseSchema = new Schema(
     CLASSE_PR: {type: String},
   	LIBEL_CL: {type: String},
     SYMBOLE_CL: {type: String},
-    MENTION_CL: {type: Number},
+    MENTION_CL: {type: String},
     COULEUR_CL: {type: Number},
+  },
+  {
+    collection: 'classe'
   }
 );
 

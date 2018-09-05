@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-var VentICSchema = new Schema(
+var VentIcSchema = new Schema(
   {
     DATE_VJ: {type: Date},
   	NUM_CA: {type: String},
@@ -70,36 +70,39 @@ var VentICSchema = new Schema(
   	BA_CADEAU: {type: Boolean},
   },
   {
+    collection: 'ventic'
+  },
+  {
     toJSON: { virtuals: true }
   }
 );
 
 // Populate virtuals
-ProduitSchema.virtual('vente', {
+VentIcSchema.virtual('vente', {
   ref: 'Vente',
   localField: 'ID_OP',
   foreignField: 'ID_OP',
   justOne: true
 });
-ProduitSchema.virtual('adherent', {
+VentIcSchema.virtual('adherent', {
   ref: 'Adherent',
   localField: 'CODE_AD',
   foreignField: 'CODE_AD',
   justOne: true
 });
-ProduitSchema.virtual('produit', {
+VentIcSchema.virtual('produit', {
   ref: 'Produit',
   localField: 'CODE_LP',
   foreignField: 'CODE_PR',
   justOne: true
 });
 
-// Virtual for VentIC's URL
-VentICSchema
+// Virtual for VentIc's URL
+VentIcSchema
 .virtual('url')
 .get(function () {
   return '/ventic/' + this._id;
 });
 
 //Export model
-module.exports = mongoose.model('VentIC', VentICSchema);
+module.exports = mongoose.model('VentIc', VentIcSchema);

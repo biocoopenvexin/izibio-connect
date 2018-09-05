@@ -49,6 +49,9 @@ var FournisseurSchema = new Schema(
   	//MODIF_BY: {type: String},
   	CREAT_DATE: {type: Date, default: Date.now, required: true},
   	//CREAT_BY: {type: String},
+  },
+  {
+    collection: 'fournisseur'
   }
 );
 

@@ -1,5 +1,5 @@
 // PRODUIT : liste des produits
-// 
+//
 
 var mongoose = require('mongoose');
 
@@ -122,6 +122,9 @@ var ProduitSchema = new Schema(
   	PRIXV_DATE_PR: {type: Date},
   	OPECOM_ID: {type: String},
   	DISCPV2_PR: {type: Boolean},
+  },
+  {
+    collection: 'produit'
   },
   {
     toJSON: { virtuals: true }

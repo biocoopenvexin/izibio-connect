@@ -33,12 +33,27 @@ var getApi = function (url, db) {
 };
 
 // Les API
-getApi("adherents", "dbo.ADHERENT");
+getApi("adherent", "dbo.ADHERENT");
+getApi("caismois", "dbo.CAISMOIS");
+getApi("classes", "dbo.CLASSES");
+getApi("familles", "dbo.FAMILLES");
 getApi("catalogue", "dbo.CATALOGUE_COMPLET");
 getApi("fournisseurs", "dbo.FOURNIS");
-
+getApi("mvtstocks", "dbo.MVT_STOCKS");
+getApi("produits", "dbo.PRODUITS");
+getApi("prohijo", "dbo.PROHIJO");
+getApi("prohimo", "dbo.PROHIMO");
+getApi("rayons", "dbo.RAYONS");
+getApi("ventes", "dbo.VENTE");
+getApi("ventedt", "dbo.VENTEDT");
+getApi("ventic", "dbo.VENTIC");
+getApi("ventmois", "dbo.VENTMOIS");
+getApi("vtecredba", "dbo.VTECREDBA");
 
 // Mongo Connection
+mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useNewUrlParser', true);
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true });
 
@@ -48,9 +63,24 @@ app.use('/adherent', adherentRouter);
 
 // Récupération des modèles
 var Adherent = require('./models/adherent');
-var caisMois = require('./models/caisMois');
+var CaisMois = require('./models/caisMois');
+var Classe = require('./models/classe');
+var Famille = require('./models/famille');
+var Fournisseur = require('./models/fournisseur');
+var MvtStock = require('./models/mvtStock');
+var Produit = require('./models/produit');
+var ProHiJo = require('./models/prohijo');
+var ProHiMo = require('./models/prohimo');
+var Rayon = require('./models/rayon');
+var Update = require('./models/update');
+var Vente = require('./models/vente');
+var VenteDt = require('./models/ventedt');
+var VentIc = require('./models/ventic');
+var VentMoi = require('./models/ventmois');
+var VteCredBa = require('./models/vtecredba');
 
 // Mise à jour intégrale de la base
+// Vérifier la date de la dernière mise à jour avec update
 function updateCollection(model, url, query) {
   axios.get('http://localhost:5000/api/' + url)
     .then(function (response) {
@@ -61,6 +91,9 @@ function updateCollection(model, url, query) {
           let document = {[field]: newDocument[field]};
           var queries = {
             "adherents": {CODE_AD: newDocument.CODE_AD},
+            "caismois": {ID_CA: newDocument.ID_CA},
+            "classes": {CLASSE_PR: newDocument.CLASSE_PR},
+            "familles": {FAMILLE_PR: newDocument.FAMILLE_PR},
           }
           //const query = {CODE_AD: newDocument.CODE_AD};
           const update = {"$set":document};
@@ -93,7 +126,7 @@ mailchimp.updateMailchimp();
 // Mise à jour des données classiques, toutes les minutes
 //cron.schedule('* * * * *', function(){
   console.log('running update');
-  updateCollection(Adherent, 'adherents');
+  updateCollection(Adherent, 'adherent');
 //});
 
 // Mise à jour CA quotidien, tous les jours à 19h30
