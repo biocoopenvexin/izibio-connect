@@ -11,6 +11,7 @@ const app = express();
 
 var sql = require('./modules/sql_server');
 var mailchimp = require('./modules/mailchimp');
+var baseUpdate = require('./modules/update');
 
 // Body Parser Middleware
 app.use(bodyParser.json());
@@ -105,6 +106,8 @@ function updateCollection(model, url, query) {
             }, function(err, doc){
               if(err){
                   console.log("Something wrong when updating data!");
+              } else {
+                baseUpdate.updateDate(url);
               }
             }
           )

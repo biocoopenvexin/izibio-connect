@@ -10,6 +10,7 @@ const axios = require('axios');
 var app = express();
 
 var sql = require('./modules/sql_server');
+var baseUpdate = require('./modules/update');
 
 // Body Parser Middleware
 app.use(bodyParser.json());
@@ -75,6 +76,7 @@ for (var db in listeDb) {
                 .then(function (response) {
                   modelInsert.insertMany(response.data);
                   console.log('Collection ' + url + ' créée !');
+                  baseUpdate.updateDate(url);
                 })
                 .catch(function (error) {
                   // handle error
@@ -114,6 +116,7 @@ for (var db in listeDb) {
 //                 .then(function (response) {
 //                   modelInsert.insertMany(response.data);
 //                   console.log('Collection ' + url + ' créée !');
+//                   baseUpdate.updateDate(url);
 //                 })
 //                 .catch(function (error) {
 //                   // handle error
