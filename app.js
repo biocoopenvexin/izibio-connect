@@ -81,7 +81,7 @@ var VentMoi = require('./models/ventmois');
 var VteCredBa = require('./models/vtecredba');
 
 // Mise à jour intégrale de la base
-// Vérifier la date de la dernière mise à jour avec update
+// Vérifier la date de la dernière mise à jour avec update, en fonction du type de base
 function updateCollection(model, url, query) {
   axios.get('http://localhost:5000/api/' + url)
     .then(function (response) {
@@ -126,15 +126,23 @@ function updateCollection(model, url, query) {
 // Gestion de la liste Mailchimp
 mailchimp.updateMailchimp();
 
-// Mise à jour des données classiques, toutes les minutes
-//cron.schedule('* * * * *', function(){
-  console.log('running update');
-  updateCollection(Adherent, 'adherent');
-//});
+// Mise à jour de certaines données, toutes les minutes
+// Ventes temps réel
+// Mouvements de stocks
+// Fiches produits
+cron.schedule('* * * * *', function(){
+  console.log('running minute update');
 
-// Mise à jour CA quotidien, tous les jours à 19h30
+});
+
+// Liste de l'ensemble des ventes, une fois par jour le matin après le démarrage
+// Base adhérents
+// Rayons, classes, familles
+  updateCollection(Adherent, 'adherent');
+
+// Mise à jour CA quotidien, tous les jours à 19h30 et toutes les secondes
 cron.schedule('* 30 19 * * *', function(){
-  //console.log('running a task');
+  console.log('running daily 19:30 task');
 });
 
 var server = app.listen(5000, function () {
