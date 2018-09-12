@@ -95,19 +95,7 @@ function updateCollection(model, url, query) {
             "caismois": {ID_CA: newDocument.ID_CA},
             "classes": {CLASSE_PR: newDocument.CLASSE_PR},
             "familles": {FAMILLE_PR: newDocument.FAMILLE_PR},
-            "fournisseurs": {CODE_FO: newDocument.CODE_FO},
-            "mvtstock": {ID: newDocument.ID},
-            "produit": {CODE_PR: newDocument.CODE_PR},
-            "prohijo": {ID: newDocument.ID},
-            "prohimo": {MOIS_HM: newDocument.MOIS_HM},
-            "rayon": {RAYON_PR: newDocument.RAYON_PR},
-            "vente": {NUM_VJ: newDocument.NUM_VJ},
-            "ventedt": {NUM_VJ: newDocument.NUM_VJ},
-            "ventic": {ID: newDocument.ID},
-            "ventmois": {ID_OP: newDocument.ID_OP},
-            "vtecredba": {ID_OP: newDocument.ID_OP},
           }
-
           //const query = {CODE_AD: newDocument.CODE_AD};
           const update = {"$set":document};
           model.findOneAndUpdate(
@@ -136,7 +124,7 @@ function updateCollection(model, url, query) {
 }
 
 // Gestion de la liste Mailchimp
-// mailchimp.updateMailchimp();
+mailchimp.updateMailchimp();
 
 // Mise à jour de certaines données, toutes les minutes
 // Ventes temps réel
@@ -144,32 +132,17 @@ function updateCollection(model, url, query) {
 // Fiches produits
 cron.schedule('* * * * *', function(){
   console.log('running minute update');
-  updateCollection(VteCredBa, 'vtecredba');
+
 });
 
 // Liste de l'ensemble des ventes, une fois par jour le matin après le démarrage
 // Base adhérents
 // Rayons, classes, familles
-cron.schedule('45 19 * * *', function(){
-  console.log('running daily 19:45 task');
   updateCollection(Adherent, 'adherent');
-  updateCollection(VentiIc, 'ventic');
-  updateCollection(VentMois, 'ventmois');
-  updateCollection(Fournisseur, 'fournisseur');
-  updateCollection(Produit, 'produit');
-});
-
-cron.schedule('00 9 * * *', function(){
-  console.log('running daily 9:00 task');
-  updateCollection(ProHiMo, 'prohimo');
-  updateCollection(ProHiJo, 'prohijo');
-
-});
 
 // Mise à jour CA quotidien, tous les jours à 19h30 et toutes les secondes
 cron.schedule('* 30 19 * * *', function(){
   console.log('running daily 19:30 task');
-  updateCollection(CaisMois, 'caismois');
 });
 
 var server = app.listen(5000, function () {
