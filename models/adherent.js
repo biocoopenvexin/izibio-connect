@@ -12,7 +12,7 @@ var AdherentSchema = new Schema(
     CIVIL_AD: {type: String},
     RUE_AD: {type: String},
     RUE2_AD: {type: String},
-    CPOST_AD: {type: String, maxlength: 5, minlength: 5},
+    CPOST_AD: {type: String},
     VILLE_AD: {type: String},
     TEL_AD: {type: String, maxlength: 10, minlength: 10},
     MEL_AD: {type: String},
@@ -57,7 +57,7 @@ var AdherentSchema = new Schema(
     //"PUBOK_AD" BIT NOT NULL DEFAULT ((0)),
     //"SMSOK_AD" BIT NOT NULL DEFAULT ((0)),
     //"MAILOK_AD" BIT NOT NULL DEFAULT ((0)),
-    TELMOBI_AD: {type: String, maxlength: 10, minlength: 10},
+    TELMOBI_AD: {type: String},
   },
   {
     collection: 'adherent'
