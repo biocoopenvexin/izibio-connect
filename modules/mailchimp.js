@@ -70,6 +70,6 @@ var addMember = function(adherent) {
        }
     })
     .catch(function (error) {
-       console.log(adherent.MEL_AD + " " + error.response.status);
+       console.log("Inscription échouée pour " + adherent.MEL_AD + ". Code " + error.response.status);
     });
 }
