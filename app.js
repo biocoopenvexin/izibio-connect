@@ -164,11 +164,12 @@ function updateCollection(model, url, db) {
               if(err){
                   console.log("Something wrong when updating data!");
               } else {
-                baseUpdate.updateDate(url);
+
               }
             }
           )
         }
+        baseUpdate.updateDate(url);
       } else {
         console.log("Pas de mise à jour pour " + url);
       }
