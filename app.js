@@ -113,6 +113,7 @@ var CaisMois = require('./models/caisMois');
 var Classe = require('./models/classe');
 var Famille = require('./models/famille');
 var Fournisseur = require('./models/fournisseur');
+var Log = require('./models/log');
 var MvtStock = require('./models/mvtStock');
 var Produit = require('./models/produit');
 var ProHiJo = require('./models/prohijo');
@@ -162,7 +163,7 @@ function updateCollection(model, url, db) {
               new: true,
             }, function(err, doc){
               if(err){
-                  console.log("Something wrong when updating data!");
+                  console.log("Something wrong when updating " + url + " data!");
               } else {
 
               }
@@ -170,6 +171,8 @@ function updateCollection(model, url, db) {
           )
         }
         baseUpdate.updateDate(url);
+        var evt = "Base " + url + " mise à jour."
+        baseUpdate.log("Update", evt);
       } else {
         console.log("Pas de mise à jour pour " + url);
       }

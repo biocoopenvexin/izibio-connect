@@ -22,3 +22,24 @@ exports.updateDate = function (db) {
     });
   });
 }
+
+exports.log = function (type, evt) {
+  mongoose.Promise = global.Promise;
+  var Log = require('../models/log');
+  var ISODate = moment().toISOString();
+  var logItem = {
+    DATE_LOG: ISODate,
+    TYPE_LOG: type,
+    EVT_LOG: evt,
+  };
+  //console.log(baseUpdate.DATE_UP + " " + baseUpdate.BASE_UP);
+  mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true }, function(err) {
+    Log.findOneAndUpdate(
+      {BASE_UP : db},
+      logItem,
+      {upsert: true},
+      function (err, doc) {
+        if (err) console.log(err);
+    });
+  });
+}
