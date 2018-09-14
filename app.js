@@ -172,7 +172,7 @@ function updateCollection(model, url, db) {
         }
         baseUpdate.updateDate(url);
         var evt = "Base " + url + " mise à jour."
-        baseUpdate.log("Update", evt);
+        //baseUpdate.log("Update", evt);
       } else {
         console.log("Pas de mise à jour pour " + url);
       }
