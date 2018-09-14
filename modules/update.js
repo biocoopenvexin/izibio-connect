@@ -34,10 +34,8 @@ exports.log = function (type, evt) {
   };
   //console.log(baseUpdate.DATE_UP + " " + baseUpdate.BASE_UP);
   mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true }, function(err) {
-    Log.findOneAndUpdate(
-      {BASE_UP : db},
+    Log.save(
       logItem,
-      {upsert: true},
       function (err, doc) {
         if (err) console.log(err);
     });
