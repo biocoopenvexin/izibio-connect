@@ -193,10 +193,9 @@ function updateCollection(model, url, db) {
 cron.schedule('* * * * *', function(){
   console.log('running minute update');
   // Gestion de la liste Mailchimp
-  // mailchimp.updateMailchimp();
+  //mailchimp.updateMailchimp();
   updateCollection(Adherent, 'adherent', "dbo.ADHERENT");
 });
-
 // Une fois par jour le matin après le démarrage
 
 cron.schedule('* 00 9 * * *', function(){
