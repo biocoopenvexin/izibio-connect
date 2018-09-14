@@ -34,43 +34,67 @@ var getApi = function (url, db) {
 };
 
 var getUpdateApi = function (url, db) {
-
   app.get("/api/" + url, function(req, res){
-
     var Update = require('./models/update');
     Update.findOne({"BASE_UP": url}, "DATE_UP", function(err, date) {
         if (err) return handleError(err);
         var lastUpdate = date.DATE_UP.toISOString();
-        console.log(lastUpdate);
-        var query = "select * from " + db + " WHERE MODIF_DATE > '" + lastUpdate + "' OR CREAT_DATE > '" + lastUpdate + "'";
-        console.log(query);
+        //console.log(lastUpdate);
+        switch (url) {
+          case "adherent":
+            var query = "select * from " + db + " WHERE MODIF_DATE > '" + lastUpdate + "' OR CREAT_DATE > '" + lastUpdate + "'";
+            break;
+          case "caismois":
+            var query = "select * from " + db + " WHERE DATE_CA > '" + lastUpdate + "'";
+            break;
+          case "fournisseur":
+            var query = "select * from " + db + " WHERE MODIF_DATE > '" + lastUpdate + "' OR CREAT_DATE > '" + lastUpdate + "'";
+            break;
+          case "mvtstock":
+            var query = "select * from " + db + " WHERE DATE_MVT > '" + lastUpdate + "'";
+            break;
+          case "produit":
+            var query = "select * from " + db + " WHERE MODIF_DATE > '" + lastUpdate + "' OR CREAT_DATE > '" + lastUpdate + "'";
+            break;
+          case "prohijo":
+            var query = "select * from " + db + " WHERE DATVEN_PR > '" + lastUpdate + "'";
+            break;
+          case "vente":
+            var query = "select * from " + db + " WHERE DATE_VJ > '" + lastUpdate + "'";
+            break;
+          case "ventedt":
+            var query = "select * from " + db + " WHERE DATE_VJ > '" + lastUpdate + "'";
+            break;
+          case "ventic":
+            var query = "select * from " + db + " WHERE DATE_VJ > '" + lastUpdate + "'";
+            break;
+          default:
+            var query = "select * from " + db;
+        }
+
+        //console.log(query);
         sql.executeQuery (res, query);
     });
-
-
-  } );
-
+  });
 };
 
-getUpdateApi("adherent", "dbo.ADHERENT");
-
-// Les API
-//getApi("adherent", "dbo.ADHERENT");
-getApi("caismois", "dbo.CAISMOIS");
-getApi("classe", "dbo.CLASSES");
-getApi("famille", "dbo.FAMILLES");
-getApi("catalogue", "dbo.CATALOGUE_COMPLET");
-getApi("fournisseur", "dbo.FOURNIS");
-getApi("mvtstock", "dbo.MVT_STOCKS");
-getApi("produit", "dbo.PRODUITS");
-getApi("prohijo", "dbo.PROHIJO");
-getApi("prohimo", "dbo.PROHIMO");
-getApi("rayon", "dbo.RAYONS");
-getApi("vente", "dbo.VENTE");
-getApi("ventedt", "dbo.VENTEDT");
-getApi("ventic", "dbo.VENTIC");
-getApi("ventmois", "dbo.VENTMOIS");
-getApi("vtecredba", "dbo.VTECREDBA");
+// // Les API
+// //getApi("adherent", "dbo.ADHERENT");
+// getApi("caismois", "dbo.CAISMOIS");
+// getApi("classe", "dbo.CLASSES");
+// getApi("famille", "dbo.FAMILLES");
+// getApi("catalogue", "dbo.CATALOGUE_COMPLET");
+// getApi("fournisseur", "dbo.FOURNIS");
+// getApi("mvtstock", "dbo.MVT_STOCKS");
+// getApi("produit", "dbo.PRODUITS");
+// getApi("prohijo", "dbo.PROHIJO");
+// getApi("prohimo", "dbo.PROHIMO");
+// getApi("rayon", "dbo.RAYONS");
+// getApi("vente", "dbo.VENTE");
+// getApi("ventedt", "dbo.VENTEDT");
+// getApi("ventic", "dbo.VENTIC");
+// getApi("ventmois", "dbo.VENTMOIS");
+// getApi("vtecredba", "dbo.VTECREDBA");
 
 // Mongo Connection
 mongoose.set('useCreateIndex', true);
@@ -103,8 +127,9 @@ var VteCredBa = require('./models/vtecredba');
 
 // Mise à jour intégrale de la base
 // Vérifier la date de la dernière mise à jour avec update, en fonction du type de base
-function updateCollection(model, url) {
+function updateCollection(model, url, db) {
 
+  getUpdateApi(url, db);
 
   axios.get('http://localhost:5000/api/' + url)
     .then(function (response) {
@@ -164,19 +189,32 @@ function updateCollection(model, url) {
 cron.schedule('* * * * *', function(){
   console.log('running minute update');
   // Gestion de la liste Mailchimp
-  //mailchimp.updateMailchimp();
-  updateCollection(Adherent, 'adherent');
+  updateCollection(Adherent, 'adherent', "dbo.ADHERENT");
 });
 
-// Liste de l'ensemble des ventes, une fois par jour le matin après le démarrage
-// Base adhérents
-// Rayons, classes, familles
+//mailchimp.updateMailchimp();
 
-  //updateCollection(Fournisseur, 'fournisseur');
+// Une fois par jour le matin après le démarrage
 
-// Mise à jour CA quotidien, tous les jours à 19h30 et toutes les secondes
-cron.schedule('* 30 19 * * *', function(){
+cron.schedule('* 00 9 * * *', function(){
+  console.log('running daily 9:00 task');
+  updateCollection(Fournisseur, 'fournisseur', "dbo.FOURNIS");
+  updateCollection(Classe, 'classe', "dbo.CLASSES");
+  updateCollection(Famille, 'famille', "dbo.FAMILLES");
+  updateCollection(Rayon, 'rayon', "dbo.RAYONS");
+});
+
+// Mise à jour CA quotidien, tous les jours à 19h30 et toutes les 30 secondes
+cron.schedule('*/30 30 19 * * *', function(){
   console.log('running daily 19:30 task');
+  updateCollection(CaisMois, 'caismois', "dbo.CAISMOIS");
+  updateCollection(MvtStock, 'mvtstock', "dbo.MVT_STOCKS");
+  updateCollection(Produit, 'produit', "dbo.PRODUITS");
+  updateCollection(Vente, 'vente', "dbo.VENTE");
+  updateCollection(VenteDt, 'ventedt', "dbo.VENTEDT");
+  updateCollection(VentIc, 'ventic', "dbo.VENTIC");
+  updateCollection(ProHiJo, 'prohijo', "dbo.PROHIJO");
+  //updateCollection(ProHiMo, 'prohimo', "dbo.PROHIMO");
 });
 
 var server = app.listen(5000, function () {
