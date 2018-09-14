@@ -33,8 +33,29 @@ var getApi = function (url, db) {
   } );
 };
 
+var getUpdateApi = function (url, db) {
+
+  app.get("/api/" + url, function(req, res){
+
+    var Update = require('./models/update');
+    Update.findOne({"BASE_UP": url}, "DATE_UP", function(err, date) {
+        if (err) return handleError(err);
+        var lastUpdate = date.DATE_UP.toISOString();
+        console.log(lastUpdate);
+        var query = "select * from " + db + " WHERE MODIF_DATE > '" + lastUpdate + "' OR CREAT_DATE > '" + lastUpdate + "'";
+        console.log(query);
+        sql.executeQuery (res, query);
+    });
+
+
+  } );
+
+};
+
+getUpdateApi("adherent", "dbo.ADHERENT");
+
 // Les API
-getApi("adherent", "dbo.ADHERENT");
+//getApi("adherent", "dbo.ADHERENT");
 getApi("caismois", "dbo.CAISMOIS");
 getApi("classe", "dbo.CLASSES");
 getApi("famille", "dbo.FAMILLES");
@@ -84,48 +105,47 @@ var VteCredBa = require('./models/vtecredba');
 // Vérifier la date de la dernière mise à jour avec update, en fonction du type de base
 function updateCollection(model, url) {
 
-  Update.findOne({"BASE_UP": url}, "DATE_UP", function(err, date) {
-      if (err) return handleError(err);
-      var lastUpdate = date.DATE_UP;
-      console.log(lastUpdate);
-  });
 
   axios.get('http://localhost:5000/api/' + url)
     .then(function (response) {
       // traverse the document
-      for (var i = 0; i < response.data.length; i++) {
-        var newDocument = response.data[i];
-        switch(url) {
-          case "adherent":
-            var query = {CODE_AD: newDocument.CODE_AD};
-            break;
-          case "caismois":
-            var query = {ID_CA: newDocument.ID_CA};
-            break;
-          case "classe":
-            var query = {CLASSE_PR: newDocument.CLASSE_PR};
-            break;
-          case "famille":
-            query = {FAMILLE_PR: newDocument.FAMILLE_PR};
-            break;
-          case "fournisseur":
-            query = {CODE_FO: newDocument.CODE_FO};
-            break;
-        }
-        model.findOneAndUpdate(
-          query,
-          {"$set": newDocument},
-          {
-            upsert: true,
-            new: true,
-          }, function(err, doc){
-            if(err){
-                console.log("Something wrong when updating data!");
-            } else {
-              baseUpdate.updateDate(url);
-            }
+      if (response.data.length > 0) {
+        for (var i = 0; i < response.data.length; i++) {
+          var newDocument = response.data[i];
+          switch(url) {
+            case "adherent":
+              var query = {CODE_AD: newDocument.CODE_AD};
+              break;
+            case "caismois":
+              var query = {ID_CA: newDocument.ID_CA};
+              break;
+            case "classe":
+              var query = {CLASSE_PR: newDocument.CLASSE_PR};
+              break;
+            case "famille":
+              query = {FAMILLE_PR: newDocument.FAMILLE_PR};
+              break;
+            case "fournisseur":
+              query = {CODE_FO: newDocument.CODE_FO};
+              break;
           }
-        )
+          model.findOneAndUpdate(
+            query,
+            {"$set": newDocument},
+            {
+              upsert: true,
+              new: true,
+            }, function(err, doc){
+              if(err){
+                  console.log("Something wrong when updating data!");
+              } else {
+                baseUpdate.updateDate(url);
+              }
+            }
+          )
+        }
+      } else {
+        console.log("Pas de mise à jour pour " + url);
       }
     })
     .catch(function (error) {
@@ -144,7 +164,7 @@ function updateCollection(model, url) {
 cron.schedule('* * * * *', function(){
   console.log('running minute update');
   // Gestion de la liste Mailchimp
-  mailchimp.updateMailchimp();
+  //mailchimp.updateMailchimp();
   updateCollection(Adherent, 'adherent');
 });
 
@@ -152,7 +172,7 @@ cron.schedule('* * * * *', function(){
 // Base adhérents
 // Rayons, classes, familles
 
-  updateCollection(Fournisseur, 'fournisseur');
+  //updateCollection(Fournisseur, 'fournisseur');
 
 // Mise à jour CA quotidien, tous les jours à 19h30 et toutes les secondes
 cron.schedule('* 30 19 * * *', function(){
