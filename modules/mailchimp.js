@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const md5 = require('blueimp-md5');
 const axios = require('axios');
 
+var baseUpdate = require('./update');
+
 require('dotenv').config();
 
 // process.env.MSSQLCONNECTION
@@ -18,6 +20,10 @@ exports.updateMailchimp = function() {
       if (adherent.MEL_AD !== null) {
         const hash_mail = md5(adherent.MEL_AD);
         axios.get('https://' + process.env.MAILCHIMP_SERVER + '.api.mailchimp.com/3.0/lists/' + process.env.MAILCHIMP_LIST + '/members/' + hash_mail, {
+          // proxy: {
+          //   host: '142.93.248.145',
+          //   port: 80,
+          //   },
           auth:
             {
               username: 'anystring',
@@ -28,11 +34,16 @@ exports.updateMailchimp = function() {
           })
           .catch(function (error) {
             // handle errors
+            console.log(error.response.status);
             if (error.response.status == 404)
             {
              console.log(adherent.MEL_AD + " " + error.response.status);
              addMember(adherent);
-            }
+           } else if (error.response.status == 503) {
+             console.log("Service unavailable");
+           } else {
+             console.log("OK");
+           }
           });
       }
     });
@@ -67,9 +78,11 @@ var addMember = function(adherent) {
     .then(function(response){
       if (response.data.status == "200") {
          console.log(adherent.MEL_AD + " inscrit !");
+         baseUpdate.log("success", adherent.MEL_AD + " inscrit !");
        }
     })
     .catch(function (error) {
        console.log("Inscription échouée pour " + adherent.MEL_AD + ". Code " + error.response.status);
+       baseUpdate.log("error", "Inscription échouée pour " + adherent.MEL_AD + ". Code " + error.response.status);
     });
 }

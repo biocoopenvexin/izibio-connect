@@ -27,16 +27,14 @@ exports.log = function (type, evt) {
   mongoose.Promise = global.Promise;
   var Log = require('../models/log');
   var ISODate = moment().toISOString();
-  var logItem = {
+  var logItem = new Log ({
     DATE_LOG: ISODate,
     TYPE_LOG: type,
     EVT_LOG: evt,
-  };
+  });
   //console.log(baseUpdate.DATE_UP + " " + baseUpdate.BASE_UP);
   mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true }, function(err) {
-    Log.save(
-      logItem,
-      function (err, doc) {
+    logItem.save(function (err, doc) {
         if (err) console.log(err);
     });
   });

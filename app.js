@@ -68,6 +68,9 @@ var getUpdateApi = function (url, db) {
           case "ventic":
             var query = "select * from " + db + " WHERE DATE_VJ > '" + lastUpdate + "'";
             break;
+          case "ventmois":
+            var query = "select * from " + db + " WHERE DATE_VJ > '" + lastUpdate + "'";
+            break;
           default:
             var query = "select * from " + db;
         }
@@ -102,7 +105,12 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useNewUrlParser', true);
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true });
+mongoose.connection.on('error', (err) => {
+			console.log('db.error ' + err);
+		});
+		mongoose.connection.on('connected', () => {
 
+    });
 // Définition des routes
 var adherentRouter = require('./routes/adherentRoute');
 app.use('/adherent', adherentRouter);
@@ -123,7 +131,7 @@ var Update = require('./models/update');
 var Vente = require('./models/vente');
 var VenteDt = require('./models/ventedt');
 var VentIc = require('./models/ventic');
-var VentMoi = require('./models/ventmois');
+var VentMois = require('./models/ventmois');
 var VteCredBa = require('./models/vtecredba');
 
 // Mise à jour intégrale de la base
@@ -136,7 +144,9 @@ function updateCollection(model, url, db) {
     .then(function (response) {
       // traverse the document
       if (response.data.length > 0) {
+        //var erreur = false;
         for (var i = 0; i < response.data.length; i++) {
+          //if (erreur) {break;}
           var newDocument = response.data[i];
           switch(url) {
             case "adherent":
@@ -154,6 +164,33 @@ function updateCollection(model, url, db) {
             case "fournisseur":
               query = {CODE_FO: newDocument.CODE_FO};
               break;
+            case "mvtstock":
+              query = {ID: newDocument.ID};
+              break;
+            case "produit":
+              query = {CODE_PR: newDocument.CODE_PR};
+              break;
+            case "prohijo":
+              query = {ID: newDocument.ID};
+              break;
+            case "rayon":
+              query = {RAYON_PR: newDocument.RAYON_PR};
+              break;
+            case "vente":
+              query = {ID: newDocument.ID};
+              break;
+            case "ventedt":
+              query = {ID: newDocument.ID};
+              break;
+            case "ventic":
+              query = {ID: newDocument.ID};
+              break;
+            case "ventmois":
+              query = {ID: newDocument.ID};
+              break;
+            case "vtecredba":
+              query = {ID_OP: newDocument.ID_OP};
+              break;
           }
           model.findOneAndUpdate(
             query,
@@ -164,15 +201,20 @@ function updateCollection(model, url, db) {
             }, function(err, doc){
               if(err){
                   console.log("Something wrong when updating " + url + " data!");
+                  //erreur = true;
               } else {
-
+                //baseUpdate.log("success", "Base " + url + " mise à jour !");
               }
             }
           )
         }
-        baseUpdate.updateDate(url);
+        // if (erreur) {
+        //   console.log("erreur");
+        // } else {
+          baseUpdate.updateDate(url);
+        // }
         var evt = "Base " + url + " mise à jour."
-        //baseUpdate.log("Update", evt);
+        console.log(evt);
       } else {
         console.log("Pas de mise à jour pour " + url);
       }
@@ -180,6 +222,7 @@ function updateCollection(model, url, db) {
     .catch(function (error) {
       // handle errors
       console.log(error);
+      baseUpdate.log("error", error);
     })
     .then(function () {
       // always executed
@@ -190,12 +233,12 @@ function updateCollection(model, url, db) {
 // Ventes temps réel
 // Mouvements de stocks
 // Fiches produits
-cron.schedule('* * * * *', function(){
-  console.log('running minute update');
-  // Gestion de la liste Mailchimp
-  //mailchimp.updateMailchimp();
+cron.schedule('45 * * * *', function(){
+  console.log('running hourly update');
   updateCollection(Adherent, 'adherent', "dbo.ADHERENT");
+  //mailchimp.updateMailchimp();
 });
+
 // Une fois par jour le matin après le démarrage
 
 cron.schedule('* 00 9 * * *', function(){
@@ -215,6 +258,7 @@ cron.schedule('*/30 30 19 * * *', function(){
   updateCollection(Vente, 'vente', "dbo.VENTE");
   updateCollection(VenteDt, 'ventedt', "dbo.VENTEDT");
   updateCollection(VentIc, 'ventic', "dbo.VENTIC");
+  updateCollection(VentMois, 'ventmois', "dbo.VENTMOIS");
   updateCollection(ProHiJo, 'prohijo', "dbo.PROHIJO");
   //updateCollection(ProHiMo, 'prohimo', "dbo.PROHIMO");
 });
