@@ -236,10 +236,10 @@ function updateCollection(model, url, db) {
 // Ventes temps réel
 // Mouvements de stocks
 // Fiches produits
-cron.schedule('45 * * * *', function(){
-  console.log('running hourly update');
+//cron.schedule('45 * * * *', function(){
+  //console.log('running hourly update');
   updateCollection(Adherent, 'adherent', "dbo.ADHERENT");
-});
+//});
 
 // Une fois par jour le matin après le démarrage
 
