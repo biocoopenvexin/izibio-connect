@@ -207,6 +207,9 @@ function updateCollection(model, url, db) {
               }
             }
           )
+          if(url === 'adherent'){
+            mailchimp.updateMailchimpSingle(newDocument);
+          }
         }
         // if (erreur) {
         //   console.log("erreur");
@@ -233,35 +236,35 @@ function updateCollection(model, url, db) {
 // Ventes temps réel
 // Mouvements de stocks
 // Fiches produits
-cron.schedule('45 * * * *', function(){
-  console.log('running hourly update');
+// cron.schedule('45 * * * *', function(){
+//   console.log('running hourly update');
   updateCollection(Adherent, 'adherent', "dbo.ADHERENT");
   //mailchimp.updateMailchimp();
-});
+//});
 
 // Une fois par jour le matin après le démarrage
 
-cron.schedule('* 00 9 * * *', function(){
-  console.log('running daily 9:00 task');
-  updateCollection(Fournisseur, 'fournisseur', "dbo.FOURNIS");
-  updateCollection(Classe, 'classe', "dbo.CLASSES");
-  updateCollection(Famille, 'famille', "dbo.FAMILLES");
-  updateCollection(Rayon, 'rayon', "dbo.RAYONS");
-});
+// cron.schedule('* 00 9 * * *', function(){
+//   console.log('running daily 9:00 task');
+//   updateCollection(Fournisseur, 'fournisseur', "dbo.FOURNIS");
+//   updateCollection(Classe, 'classe', "dbo.CLASSES");
+//   updateCollection(Famille, 'famille', "dbo.FAMILLES");
+//   updateCollection(Rayon, 'rayon', "dbo.RAYONS");
+// });
 
 // Mise à jour CA quotidien, tous les jours à 19h30 et toutes les 30 secondes
-cron.schedule('*/30 30 19 * * *', function(){
-  console.log('running daily 19:30 task');
-  updateCollection(CaisMois, 'caismois', "dbo.CAISMOIS");
-  updateCollection(MvtStock, 'mvtstock', "dbo.MVT_STOCKS");
-  updateCollection(Produit, 'produit', "dbo.PRODUITS");
-  updateCollection(Vente, 'vente', "dbo.VENTE");
-  updateCollection(VenteDt, 'ventedt', "dbo.VENTEDT");
-  updateCollection(VentIc, 'ventic', "dbo.VENTIC");
-  updateCollection(VentMois, 'ventmois', "dbo.VENTMOIS");
-  updateCollection(ProHiJo, 'prohijo', "dbo.PROHIJO");
-  //updateCollection(ProHiMo, 'prohimo', "dbo.PROHIMO");
-});
+// cron.schedule('*/30 30 19 * * *', function(){
+//   console.log('running daily 19:30 task');
+//   updateCollection(CaisMois, 'caismois', "dbo.CAISMOIS");
+//   updateCollection(MvtStock, 'mvtstock', "dbo.MVT_STOCKS");
+//   updateCollection(Produit, 'produit', "dbo.PRODUITS");
+//   updateCollection(Vente, 'vente', "dbo.VENTE");
+//   updateCollection(VenteDt, 'ventedt', "dbo.VENTEDT");
+//   updateCollection(VentIc, 'ventic', "dbo.VENTIC");
+//   updateCollection(VentMois, 'ventmois', "dbo.VENTMOIS");
+//   updateCollection(ProHiJo, 'prohijo', "dbo.PROHIJO");
+//   //updateCollection(ProHiMo, 'prohimo', "dbo.PROHIMO");
+// });
 
 var server = app.listen(5000, function () {
     console.log('Server is running..');
