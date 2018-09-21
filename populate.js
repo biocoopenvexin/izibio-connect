@@ -37,6 +37,7 @@ var listeDb = {
   Adherent : ["Adherent", "adherent", "dbo.ADHERENT"],
   CaisMois : ["CaisMois", "caismois", "dbo.CAISMOIS"],
   Classe : ["Classe", "classe", "dbo.CLASSES"],
+  Famille : ["Famille", "famille", "dbo.FAMILLES"],
   Fournisseur : ["Fournisseur", "fournisseur", "dbo.FOURNIS"],
   MvtStock : ["MvtStock", "mvtstock", "dbo.MVT_STOCKS"],
   Produit : ["Produit", "produit", "dbo.PRODUITS"],
@@ -57,61 +58,20 @@ mongoose.Promise = global.Promise;
 //app.use('/', adherentRouter);
 
 // Populate collections
-// for (var db in listeDb) {
-//   const model = listeDb[db][0];
-//   const url = listeDb[db][1];
-//   const mssql = listeDb[db][2];
-//   //console.log(model+ " " +url+ " " +mssql);
-//   getApi(url, mssql);
-//   mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true }, function(err, db) {
-//     db.db.listCollections({name: url})
-//         .next(function(err, collinfo) {
-//             if (collinfo) {
-//                 console.log('La collection ' + url + ' existe déjà !');
-//             } else {
-//               console.log('La collection ' + url + ' n\'existe pas...');
-//               // Création de la base
-//               var modelInsert = require('./models/' + model);
-//               axios.get('http://localhost:5000/api/' + url)
-//                 .then(function (response) {
-//                   modelInsert.insertMany(response.data);
-//                   console.log('Collection ' + url + ' créée !');
-//                   baseUpdate.updateDate(url);
-//                 })
-//                 .catch(function (error) {
-//                   // handle error
-//                   console.log(error);
-//                 })
-//                 .then(function () {
-//                   // always executed
-//                 });
-//             }
-//         });
-//   });
-// }
-
-// Population à partir des archives
-//
-var listeDbArc = {
-  //CaisMois : ["CaisMois", "caismois", "dbo.ARC_CAISMOIS"],
-  //MvtStock : ["MvtStock", "mvtstock", "dbo.ARC_MVT_STOCKS"],
-  // Produit : ["Produit", "produit", "dbo.ARC_PRODUITS"],
-  ProHiJo : ["ProHiJo", "prohijo", "dbo.ARC_PROHIJO"],
-  // VentIc : ["VentIc", "ventic", "dbo.ARC_VENTIC"],
-}
-
-for (var db in listeDbArc) {
-  const model = listeDbArc[db][0];
-  const url = listeDbArc[db][1];
-  const mssql = listeDbArc[db][2];
+for (var db in listeDb) {
+  const model = listeDb[db][0];
+  const url = listeDb[db][1];
+  const mssql = listeDb[db][2];
   //console.log(model+ " " +url+ " " +mssql);
-  getApi(url, mssql, true);
+  getApi(url, mssql);
   mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true }, function(err, db) {
     db.db.listCollections({name: url})
         .next(function(err, collinfo) {
             if (collinfo) {
-              console.log('La collection ' + url + ' existe déjà !');
-              // Ajout des archives dans la base
+                console.log('La collection ' + url + ' existe déjà !');
+            } else {
+              console.log('La collection ' + url + ' n\'existe pas...');
+              // Création de la base
               var modelInsert = require('./models/' + model);
               axios.get('http://localhost:5000/api/' + url)
                 .then(function (response) {
@@ -126,12 +86,53 @@ for (var db in listeDbArc) {
                 .then(function () {
                   // always executed
                 });
-            } else {
-              console.log('La collection ' + url + ' n\'existe pas...');
             }
         });
   });
 }
+
+// Population à partir des archives
+//
+// var listeDbArc = {
+//   //CaisMois : ["CaisMois", "caismois", "dbo.ARC_CAISMOIS"],
+//   //MvtStock : ["MvtStock", "mvtstock", "dbo.ARC_MVT_STOCKS"],
+//   // Produit : ["Produit", "produit", "dbo.ARC_PRODUITS"],
+//   ProHiJo : ["ProHiJo", "prohijo", "dbo.ARC_PROHIJO"],
+//   // VentIc : ["VentIc", "ventic", "dbo.ARC_VENTIC"],
+// }
+//
+// for (var db in listeDbArc) {
+//   const model = listeDbArc[db][0];
+//   const url = listeDbArc[db][1];
+//   const mssql = listeDbArc[db][2];
+//   //console.log(model+ " " +url+ " " +mssql);
+//   getApi(url, mssql, true);
+//   mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true }, function(err, db) {
+//     db.db.listCollections({name: url})
+//         .next(function(err, collinfo) {
+//             if (collinfo) {
+//               console.log('La collection ' + url + ' existe déjà !');
+//               // Ajout des archives dans la base
+//               var modelInsert = require('./models/' + model);
+//               axios.get('http://localhost:5000/api/' + url)
+//                 .then(function (response) {
+//                   modelInsert.insertMany(response.data);
+//                   console.log('Collection ' + url + ' créée !');
+//                   baseUpdate.updateDate(url);
+//                 })
+//                 .catch(function (error) {
+//                   // handle error
+//                   console.log(error);
+//                 })
+//                 .then(function () {
+//                   // always executed
+//                 });
+//             } else {
+//               console.log('La collection ' + url + ' n\'existe pas...');
+//             }
+//         });
+//   });
+// }
 
 var server = app.listen(5000, function () {
     console.log('Server is running..');

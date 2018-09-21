@@ -39,7 +39,6 @@ var getUpdateApi = function (url, db) {
     Update.findOne({"BASE_UP": url}, "DATE_UP", function(err, date) {
         if (err) return handleError(err);
         var lastUpdate = date.DATE_UP.toISOString();
-        //console.log(lastUpdate);
         switch (url) {
           case "adherent":
             var query = "select * from " + db + " WHERE MODIF_DATE > '" + lastUpdate + "' OR CREAT_DATE > '" + lastUpdate + "'";
@@ -235,15 +234,20 @@ function updateCollection(model, url, db) {
 // Mise à jour de certaines données, toutes les minutes
 // Ventes temps réel
 // Mouvements de stocks
-// Fiches produits
-//cron.schedule('45 * * * *', function(){
-  //console.log('running hourly update');
+// Fiches adhérents
+cron.schedule('45 * * * *', function(){
+  console.log('Running hourly update: Adherents');
   updateCollection(Adherent, 'adherent', "dbo.ADHERENT");
-//});
+});
+
+// Fiches adhérents
+cron.schedule('*/5 * * * *', function(){
+  console.log('Running Produits update');
+  updateCollection(Produit, 'produit', "dbo.PRODUITS");
+});
 
 // Une fois par jour le matin après le démarrage
-
-cron.schedule('* 00 9 * * *', function(){
+cron.schedule('0 9 * * *', function(){
   console.log('running daily 9:00 task');
   updateCollection(Fournisseur, 'fournisseur', "dbo.FOURNIS");
   updateCollection(Classe, 'classe', "dbo.CLASSES");
@@ -256,7 +260,6 @@ cron.schedule('*/30 30 19 * * *', function(){
   console.log('running daily 19:30 task');
   updateCollection(CaisMois, 'caismois', "dbo.CAISMOIS");
   updateCollection(MvtStock, 'mvtstock', "dbo.MVT_STOCKS");
-  updateCollection(Produit, 'produit', "dbo.PRODUITS");
   updateCollection(Vente, 'vente', "dbo.VENTE");
   updateCollection(VenteDt, 'ventedt', "dbo.VENTEDT");
   updateCollection(VentIc, 'ventic', "dbo.VENTIC");
