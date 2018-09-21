@@ -244,6 +244,7 @@ cron.schedule('45 * * * *', function(){
 cron.schedule('*/5 * * * *', function(){
   console.log('Running Produits update');
   updateCollection(Produit, 'produit', "dbo.PRODUITS");
+  updateCollection(VteCredBa, 'vtecredba', "dbo.VTECREDBA");
 });
 
 // Une fois par jour le matin après le démarrage
@@ -253,6 +254,14 @@ cron.schedule('0 9 * * *', function(){
   updateCollection(Classe, 'classe', "dbo.CLASSES");
   updateCollection(Famille, 'famille', "dbo.FAMILLES");
   updateCollection(Rayon, 'rayon', "dbo.RAYONS");
+  VteCredBa.remove({}, function(err, doc){
+    if(err){
+        console.log("Something wrong when deleting VteCredBa!");
+    } else {
+      console.log('VteCredBa deleted!');
+      baseUpdate.updateDate('vtecredba');
+    }
+  });
 });
 
 // Mise à jour CA quotidien, tous les jours à 19h30 et toutes les 30 secondes
