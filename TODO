@@ -5,6 +5,8 @@ Réaliser une route / un fichier d'importation initiale des données
 
 Bases à importer depuis CCB :
 +- CAISMOIS : récapitulatif des ventes en fin de journée après clôture quotidienne
+- CAISSE : montant de la caisse du jour, en temps réel
+- (optionnel) CATALOGUE_COMPLET : catalogue PF complet
 +- CLASSES : classes des produits
 - (optionnel) COMMANDE : liste des commandes
 - (optionnel) COMMANDEDT : détail des produits commandés
@@ -15,11 +17,11 @@ Bases à importer depuis CCB :
 +- PROHIJO : historique des modifications des fiches produits / par jour
 +- PROHIMO : historique des modifications des fiches produits / par mois
 +- RAYONS : les rayons du magasin
-+- VENTE : ventes du jour (après consolidation)
-+- VENTEDT : détail des ventes du jour (après consolidation)
++- VENTE : ventes du jour en temps réel
++- VENTEDT : détail des ventes du jour en temps réel
 +- VENTIC : détail des ventes des derniers mois
 +- VENTMOIS : liste des ventes des 30 derniers jours
-+- VTECREDBA : ventes du jour (temps réel)
++- (à supprimer) VTECREDBA : ventes du jour (temps réel)
 
 Bases à importer depuis CCBARC :
 +- ARC_CAISMOIS : récapitulatif des ventes quotidiennes des mois précédents
